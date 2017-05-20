@@ -41,7 +41,6 @@ public class SimulatorOne {
             for(int z = 0; z < items.length; z = z+2){
                 
                 g.addEdge(start, items[z], Double.parseDouble(items[z+1]));
-                System.out.println("edge: from: " + start + " to: " + items[z] + " cost: " + items[z+1]);
                 
             }
             
@@ -61,30 +60,84 @@ public class SimulatorOne {
                 
         ArrayList<String> paths = new ArrayList<>();
         
-        for(int i = 0; i < victims.length; i++){
+        for(String vic : victims){ //error here, using indexs such as i and j, rather than actual hospital  int i = 0; i < victims.length; i++
             
             
             
-            for(int j = 0; j < hospitals.length; j++){
+            for(String hos : hospitals){ //int j = 0; j < hospitals.length; j++
                 
                 path = "";
                 cost = "";
                 //working out path and cost from hospital to victim
-                g.dijkstra(hospitals[j]); //start at the given hospital's node
-                path = g.pathAll(victims[i]);
-                cost = g.pathCost(victims[i]);
+                g.dijkstra(hos); //start at the given hospital's node
+                path = g.pathAll(vic);
+                cost = g.pathCost(vic);
                 
-                g.dijkstra(victims[i]);
-                path += " " + g.pathAll(hospitals[j]).substring(2);
-                cost = "" + (Double.parseDouble(cost) + Double.parseDouble(g.pathCost(hospitals[j])));
+                g.dijkstra(vic);
+                path += g.pathAll(hos).substring(1);
+                cost = "" + (Double.parseDouble(cost) + Double.parseDouble(g.pathCost(hos)));
                 
-                paths.add("v:" + i + " h:" + j + " C:" + cost + ";" + path);
+                paths.add("v:" + vic + " h:" + hos + " C:" + cost + ";" + path);
                 
             }
   
         }
         
-        System.out.println(paths.toString());
+        //System.out.println(paths.toString()); for testing 
+        
+        double mincost = 999999.0;
+        double wcost = 0.0;
+        String vic = "";
+        String print;
+        
+        for(String victim : victims ){
+            
+            System.out.println("victim " + victim);
+            
+            for (int i = 0; i < paths.size(); i++){ //loop to determine min cost
+            
+            path = paths.get(i);
+            vic = path.substring(2,3);
+            wcost = Double.parseDouble(path.substring(path.lastIndexOf(":")+1, path.lastIndexOf(";")));
+            
+            if (Integer.parseInt(victim) == Integer.parseInt(vic)){
+                
+                if (mincost > wcost){
+                    
+                    mincost = wcost;
+                    
+                }
+                
+            }
+            
+            } //looping through each path, selecting those for the same victim, determining min cost from those set to mincost
+            
+            for (int i = 0; i < paths.size(); i++){ //loop through each path, checking that victim is the same (i.e. as victim in vic loop) and checking if cost = mincost, then priting if it is
+                
+                path = paths.get(i);
+                vic = path.substring(2,3);
+                wcost = Double.parseDouble(path.substring(path.lastIndexOf(":")+1, path.lastIndexOf(";")));
+                    
+                if (Integer.parseInt(victim) == Integer.parseInt(vic)){
+                
+                    if (mincost == wcost){
+                    
+                        print = "hospital " + path.substring(6, 7) + "\n" + path.substring(path.indexOf(";")+1);
+                        System.out.println(print);
+                    
+                    }
+                
+                } 
+               
+                
+            }
+            
+            mincost = 999999.0;
+            wcost = 0.0;
+            
+        }
+        
+        
         
         
          
