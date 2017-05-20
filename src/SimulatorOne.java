@@ -23,8 +23,6 @@ public class SimulatorOne {
         Graph g = new Graph();
         String [] hospitals;
         String [] victims;
-        System.out.println("enter input: ");
-        
         
         Scanner scanf = new Scanner(System.in);
         int numnodes = scanf.nextInt();
@@ -61,9 +59,7 @@ public class SimulatorOne {
         ArrayList<String> paths = new ArrayList<>();
         
         for(String vic : victims){ //error here, using indexs such as i and j, rather than actual hospital  int i = 0; i < victims.length; i++
-            
-            
-            
+
             for(String hos : hospitals){ //int j = 0; j < hospitals.length; j++
                 
                 path = "";
@@ -126,21 +122,15 @@ public class SimulatorOne {
                         System.out.println(print);
                     
                     }
-                
                 } 
                
-                
             }
             
             mincost = 999999.0;
             wcost = 0.0;
             
         }
-        
-        
-        
-        
-         
+           
     }
    
 }
